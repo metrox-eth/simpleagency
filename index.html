@@ -3,82 +3,266 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Laurent Genoud, Simple Agency</title>
-<meta name="description" content="Maker et consultant. Robotique incarnée (Show Robotics), outils IA pour la santé (QuitSponsor), conseil IA et automatisation pour PME. Suisse romande / Thaïlande, à distance.">
+<title>Laurent Genoud, cours d'IA et robotique, accompagnement petites entreprises</title>
+<meta name="description" content="Cours particuliers d'IA et de robotique, à distance, et accompagnement IA pragmatique pour petites entreprises. Première heure offerte. Suisse romande et ailleurs, en français ou en anglais.">
 <style>
+  @font-face{font-family:'Space Mono';src:url(fonts/SpaceMono-400.woff2) format('woff2');font-weight:400}
+  @font-face{font-family:'Space Mono';src:url(fonts/SpaceMono-700.woff2) format('woff2');font-weight:700}
+  @font-face{font-family:'IBM Plex Sans';src:url(fonts/IBMPlexSans-300.woff2) format('woff2');font-weight:300}
+  @font-face{font-family:'IBM Plex Sans';src:url(fonts/IBMPlexSans-400.woff2) format('woff2');font-weight:400}
+  @font-face{font-family:'IBM Plex Sans';src:url(fonts/IBMPlexSans-600.woff2) format('woff2');font-weight:600}
   :root{
-    --bg:#fbfaf7; --ink:#1d232e; --dim:#5c6470; --line:#e7e3d8;
-    --accent:#0f6b5c; --panel:#ffffff;
-  }
-  @media (prefers-color-scheme: dark){
-    :root{ --bg:#12161d; --ink:#ece9e2; --dim:#9aa1ab; --line:#262c37;
-           --accent:#3fbfa8; --panel:#1a2029; }
+    --bg:#0a0a0f; --panel:#12121c; --ink:#e8e8ee; --muted:#9a9aa8;
+    --magenta:#ff1f8f; --cyan:#00e5ff; --violet:#b4a0ff; --line:#23233a;
   }
   *{box-sizing:border-box;margin:0}
+  html{scroll-behavior:smooth}
   body{background:var(--bg);color:var(--ink);
-       font:17px/1.7 system-ui,-apple-system,"Segoe UI",sans-serif;
+       font:16px/1.65 'IBM Plex Sans',system-ui,sans-serif;
        -webkit-font-smoothing:antialiased}
-  main{max-width:640px;margin:0 auto;padding:4rem 1.25rem 4rem}
-  h1{font-size:1.9rem;letter-spacing:-.02em;line-height:1.2}
-  .tag{color:var(--dim);margin-top:.5rem;font-size:1.05rem}
-  h2{font-size:.95rem;text-transform:uppercase;letter-spacing:.1em;
-     color:var(--accent);margin:2.8rem 0 1rem}
-  p{margin:.8rem 0}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;
-        padding:1.05rem 1.2rem;margin:.8rem 0}
-  .card b{display:block;margin-bottom:.2rem}
-  .card span{color:var(--dim);font-size:.96rem}
-  a{color:var(--accent);text-decoration:none}
-  a:hover{text-decoration:underline}
-  .contact{display:inline-block;background:var(--accent);color:#fff;
-           font-weight:700;padding:.8rem 1.4rem;border-radius:10px;margin-top:.8rem}
-  .contact:hover{text-decoration:none;opacity:.92}
-  .en{border-top:1px solid var(--line);margin-top:2.8rem;padding-top:1.4rem;
-      color:var(--dim);font-size:.95rem}
-  footer{margin-top:3rem;padding-top:1.2rem;border-top:1px solid var(--line);
-         color:var(--dim);font-size:.88rem}
+  .wrap{max-width:960px;margin:0 auto;padding:0 1.25rem}
+  header{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+  #scene{position:absolute;inset:0;width:100%;height:100%;opacity:.55}
+  .hero{position:relative;padding:5.5rem 0 4rem}
+  .hero h1{font:700 2.4rem/1.1 'Space Mono',monospace;letter-spacing:-.02em}
+  .hero .role{color:var(--cyan);font:400 .95rem 'Space Mono',monospace;
+              letter-spacing:.14em;text-transform:uppercase;margin-bottom:.9rem}
+  .hero p{max-width:34rem;color:var(--muted);font-size:1.12rem;margin-top:1rem}
+  .cta{display:inline-block;background:var(--magenta);color:#fff;
+       font:700 .85rem 'Space Mono',monospace;text-transform:uppercase;
+       letter-spacing:.1em;padding:.95rem 1.6rem;margin-top:1.6rem;
+       text-decoration:none;transition:.25s}
+  .cta:hover{background:transparent;box-shadow:inset 0 0 0 2px var(--magenta);color:var(--magenta)}
+  .cta.alt{background:transparent;box-shadow:inset 0 0 0 2px var(--line);color:var(--ink);margin-left:.6rem}
+  .cta.alt:hover{box-shadow:inset 0 0 0 2px var(--cyan);color:var(--cyan)}
+  section{padding:3.6rem 0;border-bottom:1px solid var(--line)}
+  .section-label{color:var(--magenta);font:400 11px 'Space Mono',monospace;
+                 letter-spacing:.18em;text-transform:uppercase;display:flex;
+                 align-items:center;gap:.7rem;margin-bottom:1.1rem}
+  .section-label::before{content:'';width:32px;height:1px;background:var(--magenta)}
+  h2{font:700 1.5rem 'Space Mono',monospace;margin-bottom:1rem}
+  p.lead{color:var(--muted);max-width:40rem}
+  .track-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:1.6rem}
+  .track-item{background:var(--panel);border:1px solid var(--line);transition:.3s;
+              text-decoration:none;color:var(--ink);display:block}
+  .track-item:hover{border-color:var(--magenta);transform:translateY(-4px)}
+  .img-wrap{aspect-ratio:4/3;overflow:hidden;background:#0d0d16;display:flex;
+            align-items:center;justify-content:center}
+  .img-wrap img,.img-wrap video{width:100%;height:100%;object-fit:cover;
+            transition:transform .6s}
+  .track-item:hover .img-wrap img,.track-item:hover .img-wrap video{transform:scale(1.04)}
+  .img-wrap.logo-card img{object-fit:contain;width:55%;height:auto}
+  .track-item .txt{padding:.9rem 1rem 1.1rem}
+  .track-item .year{color:var(--cyan);font:400 .75rem 'Space Mono',monospace;
+                    letter-spacing:.12em}
+  .track-item h3{font:700 1.05rem 'Space Mono',monospace;margin:.25rem 0 .35rem}
+  .track-item p{color:var(--muted);font-size:.92rem}
+  .offres{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.6rem}
+  .offre{background:var(--panel);border:1px solid var(--line);padding:1.4rem 1.4rem 1.6rem}
+  .offre .tagline{font:400 .75rem 'Space Mono',monospace;letter-spacing:.12em;
+                  text-transform:uppercase}
+  .offre:nth-child(1) .tagline{color:var(--cyan)}
+  .offre:nth-child(2) .tagline{color:var(--violet)}
+  .offre h3{font:700 1.15rem 'Space Mono',monospace;margin:.4rem 0 .7rem}
+  .offre ul{list-style:none;color:var(--muted);font-size:.95rem}
+  .offre li{margin:.45rem 0;padding-left:1.1rem;position:relative}
+  .offre li::before{content:'>';position:absolute;left:0;color:var(--magenta);
+                    font-family:'Space Mono',monospace}
+  .etapes{margin-top:1.6rem;display:grid;gap:1rem}
+  .etape{display:flex;gap:1.1rem;align-items:baseline}
+  .etape .n{font:700 1.9rem 'Space Mono',monospace;min-width:2.4rem}
+  .etape:nth-child(1) .n{color:var(--cyan)}
+  .etape:nth-child(2) .n{color:var(--violet)}
+  .etape:nth-child(3) .n{color:var(--magenta)}
+  .etape p{color:var(--muted)}
+  .etape b{color:var(--ink)}
+  .tarif{font:700 2rem 'Space Mono',monospace;color:var(--cyan);margin:.6rem 0}
+  footer{padding:2.4rem 0 3rem;color:var(--muted);font-size:.88rem}
+  footer a{color:var(--violet);text-decoration:none}
+  @media(max-width:760px){
+    .track-grid,.offres{grid-template-columns:1fr}
+    .hero h1{font-size:1.9rem}
+  }
 </style>
 </head>
 <body>
-<main>
-  <h1>Laurent Genoud</h1>
-  <div class="tag">Maker &amp; consultant : robotique incarnée, agents IA, automatisation.
-  Vingt ans de web dont dix à la tête de Simple Agency (Suisse romande) ; je construis
-  aujourd'hui depuis la Thaïlande.</div>
-
-  <h2>En ce moment</h2>
-  <div class="card">
-    <b><a href="https://showrobotics.ai">Show Robotics</a></b>
-    <span>Une tête animatronique avec une vraie personnalité : vision, voix, mémoire,
-    caractère. Robotique incarnée construite en public, épisode par épisode.</span>
+<header>
+  <canvas id="scene"></canvas>
+  <div class="wrap hero">
+    <div class="role">IA &amp; robotique, sans poudre aux yeux</div>
+    <h1>Laurent Genoud</h1>
+    <p>Cours particuliers d'IA et de robotique à distance, et accompagnement IA
+    pragmatique pour petites entreprises. Vingt ans de web, dix ans d'agence,
+    quatre ans les mains dans les robots. En français ou en anglais.</p>
+    <a class="cta" href="mailto:lg@simpleagency.ch">Première heure offerte</a>
+    <a class="cta alt" href="#preuves">Voir ce que je construis</a>
   </div>
-  <div class="card">
-    <b><a href="https://quitsponsor.com">QuitSponsor</a></b>
-    <span>Un parrain IA open source pour l'arrêt du tabac : protocole audité et sourcé,
-    évaluation publiée sur sept modèles, bot Telegram en bêta. Construit pendant mon
-    propre sevrage.</span>
+</header>
+
+<section id="preuves">
+  <div class="wrap">
+    <div class="section-label">La preuve par les mains</div>
+    <h2>Ce que je construis en ce moment</h2>
+    <p class="lead">Pas de slides : des machines et des outils qui tournent,
+    construits en public.</p>
+    <div class="track-grid">
+      <a class="track-item" href="https://showrobotics.ai">
+        <div class="img-wrap"><img src="img/vita_closeup.jpg" alt="Tête robotique expressive en gros plan"></div>
+        <div class="txt"><span class="year">2026 · robot vivant</span>
+          <h3>Vita</h3>
+          <p>Une tête animatronique avec une vraie personnalité : vision, voix,
+          mémoire, caractère. Le projet phare de Show Robotics.</p></div>
+      </a>
+      <a class="track-item" href="https://quitsponsor.com">
+        <div class="img-wrap logo-card"><img src="img/quitsponsor.svg" alt="Logo QuitSponsor, une bouée qui est aussi une bulle de message"></div>
+        <div class="txt"><span class="year">2026 · IA santé, open source</span>
+          <h3>QuitSponsor</h3>
+          <p>Un parrain IA pour arrêter de fumer : protocole sourcé, éthique
+          publiée, évalué sur sept modèles. Construit pendant mon propre sevrage.</p></div>
+      </a>
+      <a class="track-item" href="https://showrobotics.ai/archive">
+        <div class="img-wrap"><video src="media/lab.mp4" poster="media/lab_poster.jpg" muted loop playsinline onmouseover="this.play()" onmouseout="this.pause()"></video></div>
+        <div class="txt"><span class="year">2025-2026 · l'atelier</span>
+          <h3>Le lab</h3>
+          <p>Bras robotiques, imprimantes 3D, entraînement de modèles sur GPU
+          maison. Là où les cours et les prototypes prennent vie.</p></div>
+      </a>
+      <div class="track-item">
+        <div class="img-wrap"><img src="img/trader_bot.jpg" alt="Petit robot à chenilles avec une cravate"></div>
+        <div class="txt"><span class="year">2025 · robot #1</span>
+          <h3>Traderbot</h3>
+          <p>Châssis chenillé imprimé en 3D, yeux sur écrans LCD carrés, bouche
+          NeoPixel, et cravate réglementaire. Le premier de la lignée.</p></div>
+      </div>
+    </div>
   </div>
+</section>
 
-  <h2>Conseil</h2>
-  <p>J'aide les PME et indépendants à mettre l'IA au travail, concrètement :
-  automatisation des tâches répétitives, agents sur mesure, choix d'outils sans
-  vendre de la poudre. Dix ans d'agence web (sites, e-commerce, communication)
-  plus quatre ans de terrain IA/robotique : je parle les deux langues.</p>
-  <p>À distance, en français ou en anglais. Premier échange gratuit, sans engagement.</p>
-  <a class="contact" href="mailto:lg@simpleagency.ch">lg@simpleagency.ch</a>
-
-  <div class="en">
-    <b>English:</b> maker &amp; consultant: embodied robotics (Show Robotics),
-    open-source AI health tools (QuitSponsor), AI &amp; automation consulting for
-    small businesses. Remote, from Thailand. First call is free:
-    <a href="mailto:lg@simpleagency.ch">lg@simpleagency.ch</a>.
+<section>
+  <div class="wrap">
+    <div class="section-label">Deux façons de travailler ensemble</div>
+    <h2>Cours particuliers, ou coup de main à votre entreprise</h2>
+    <div class="offres">
+      <div class="offre">
+        <div class="tagline">Pour les curieux et les makers</div>
+        <h3>Cours particuliers</h3>
+        <ul>
+          <li>Comprendre l'IA sans jargon : ce qui marche, ce qui est du vent</li>
+          <li>Monter votre premier agent, bot ou automatisation</li>
+          <li>Robotique maker : électronique, impression 3D, servos, vision</li>
+          <li>À distance, en visio, à votre rythme, dès débutant</li>
+        </ul>
+      </div>
+      <div class="offre">
+        <div class="tagline">Pour les petites entreprises</div>
+        <h3>Accompagnement IA</h3>
+        <ul>
+          <li>Automatiser les tâches répétitives qui vous coûtent des heures</li>
+          <li>Agents sur mesure branchés sur vos outils existants</li>
+          <li>Choix d'outils honnête : je ne revends rien, je conseille</li>
+          <li>Dix ans d'agence web : je parle métier, pas seulement technique</li>
+        </ul>
+      </div>
+    </div>
   </div>
+</section>
 
-  <footer>
+<section>
+  <div class="wrap">
+    <div class="section-label">Comment ça marche</div>
+    <h2>Simple, sans engagement</h2>
+    <div class="etapes">
+      <div class="etape"><span class="n">01</span>
+        <p><b>Vous m'écrivez.</b> Deux lignes suffisent : où vous en êtes, ce que
+        vous voulez apprendre ou résoudre.</p></div>
+      <div class="etape"><span class="n">02</span>
+        <p><b>Première heure offerte.</b> En visio : on fait le tour, vous
+        repartez déjà avec des réponses. Si ça ne colle pas, ça s'arrête là,
+        sans frais.</p></div>
+      <div class="etape"><span class="n">03</span>
+        <p><b>On avance à votre rythme.</b> Heure par heure, sans abonnement,
+        sans engagement. Vous arrêtez quand vous voulez.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-label">Tarif</div>
+    <div class="tarif">50 CHF / heure</div>
+    <p class="lead">Cours comme accompagnement. Première heure offerte, paiement
+    à l'heure, aucun abonnement. Projets d'entreprise plus larges : devis simple
+    et honnête après le premier échange.</p>
+    <a class="cta" href="mailto:lg@simpleagency.ch">lg@simpleagency.ch</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <b>English:</b> private AI &amp; robotics lessons, and pragmatic AI help for
+    small businesses. Remote, first hour free: <a href="mailto:lg@simpleagency.ch">lg@simpleagency.ch</a>.<br><br>
     Simple Agency, depuis 2010. Site minimal par choix : pas de cookies, pas de
     tracking, pas de formulaire. Un email suffit.<br>
     Fait main avec Iris, 2026.
-  </footer>
-</main>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const c = document.getElementById('scene');
+  if (!c || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const x = c.getContext('2d');
+  let W, H, pts = [], bursts = [], visible = true;
+  function size(){
+    W = c.width = c.offsetWidth * devicePixelRatio;
+    H = c.height = c.offsetHeight * devicePixelRatio;
+  }
+  size(); addEventListener('resize', size);
+  const N = 42;
+  for (let i = 0; i < N; i++) pts.push({
+    x: Math.random(), y: Math.random(),
+    vx: (Math.random() - .5) * .0006, vy: (Math.random() - .5) * .0006
+  });
+  new IntersectionObserver(e => visible = e[0].isIntersecting).observe(c);
+  c.parentElement.addEventListener('click', e => {
+    const r = c.getBoundingClientRect();
+    bursts.push({x: (e.clientX - r.left) / r.width,
+                 y: (e.clientY - r.top) / r.height, t: 0});
+  });
+  function frame(){
+    requestAnimationFrame(frame);
+    if (!visible) return;
+    x.clearRect(0, 0, W, H);
+    for (const p of pts){
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > 1) p.vx *= -1;
+      if (p.y < 0 || p.y > 1) p.vy *= -1;
+    }
+    x.lineWidth = devicePixelRatio;
+    for (let i = 0; i < N; i++) for (let j = i + 1; j < N; j++){
+      const a = pts[i], b = pts[j];
+      const d = Math.hypot(a.x - b.x, a.y - b.y);
+      if (d < .11){
+        x.strokeStyle = 'rgba(0,229,255,' + (.28 * (1 - d / .11)) + ')';
+        x.beginPath(); x.moveTo(a.x * W, a.y * H); x.lineTo(b.x * W, b.y * H); x.stroke();
+      }
+    }
+    for (const p of pts){
+      x.fillStyle = 'rgba(180,160,255,.8)';
+      x.fillRect(p.x * W - 1.5, p.y * H - 1.5, 3, 3);
+    }
+    bursts = bursts.filter(b => b.t < 1);
+    for (const b of bursts){
+      b.t += .03;
+      x.strokeStyle = 'rgba(255,31,143,' + (1 - b.t) + ')';
+      x.lineWidth = 2 * devicePixelRatio;
+      x.beginPath();
+      x.arc(b.x * W, b.y * H, b.t * .12 * W, 0, 7);
+      x.stroke();
+    }
+  }
+  frame();
+})();
+</script>
 </body>
 </html>
