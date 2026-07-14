@@ -28,14 +28,19 @@
   @keyframes blink{50%{opacity:0}}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
   .pgrid{display:grid;grid-template-columns:1.05fr 1fr;gap:16px}
-  .pcol{display:grid;gap:16px}
-  .vita-media{flex:1;min-height:460px;overflow:hidden;position:relative}
+  .g-vita{grid-column:1;grid-row:1/3}
+  .g-rover{grid-column:1;grid-row:3}
+  .g-r1{grid-column:2;grid-row:1}
+  .g-r2{grid-column:2;grid-row:2}
+  .g-r3{grid-column:2;grid-row:3}
+  .vita-media{flex:1;min-height:300px;overflow:hidden;position:relative}
   .side-media{aspect-ratio:16/9;overflow:hidden;position:relative}
   .langsw{display:inline-flex;border:1px solid #2a2e37;font:400 11px 'Space Mono',monospace;letter-spacing:.08em}
   .langsw button{background:none;border:0;color:#9a9ca6;padding:6px 10px;cursor:pointer;font:inherit}
   .langsw button.on{background:#43e3cf;color:#05130f;font-weight:700}
   @media(max-width:920px){
     .pgrid{grid-template-columns:1fr}
+    .g-vita,.g-rover,.g-r1,.g-r2,.g-r3{grid-column:auto;grid-row:auto}
     .vita-media{min-height:340px}
     .navlinks{display:none!important}
   }
@@ -72,7 +77,7 @@
   <canvas id="scene" style="position:absolute;inset:0;width:100%;height:100%;opacity:.55;pointer-events:none"></canvas>
   <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 63px,rgba(30,33,40,.5) 63px 64px),repeating-linear-gradient(90deg,transparent 0 63px,rgba(30,33,40,.5) 63px 64px);pointer-events:none"></div>
   <div style="position:absolute;top:22px;left:32px;font:400 10.5px 'Space Mono',monospace;letter-spacing:.2em;color:#43e3cf;pointer-events:none">◢ SYS.ONLINE</div>
-  <div style="position:absolute;top:22px;right:32px;font:400 10.5px 'Space Mono',monospace;letter-spacing:.2em;color:#5f6169;pointer-events:none">46.52°N · 6.63°E</div>
+  <div style="position:absolute;top:22px;right:32px;font:400 10.5px 'Space Mono',monospace;letter-spacing:.2em;color:#5f6169;pointer-events:none">12.39°N · 99.92°E</div>
 
   <div style="position:relative;max-width:1180px;margin:0 auto;padding:96px 32px 84px;display:flex;flex-wrap:wrap;gap:56px;align-items:center">
     <div style="flex:1 1 500px;min-width:320px">
@@ -113,7 +118,7 @@
         </div>
       </div>
       <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 18px;border-top:1px solid #1c1f26;font:400 10.5px 'Space Mono',monospace;letter-spacing:.1em;color:#5f6169">
-        <span data-i18n="spec_loc">SUISSE ROMANDE · REMOTE</span>
+        <span data-i18n="spec_loc">REMOTE · UTC+7</span>
         <span style="color:#8b8d97">FR / EN</span>
       </div>
     </div>
@@ -134,65 +139,77 @@
     </div>
 
     <div class="pgrid">
-      <!-- Vita, colonne haute -->
-      <a data-reveal href="https://showrobotics.ai" style="display:flex;flex-direction:column;background:#0f1216;border:1px solid #1e2128;color:#edeef2;transition:border-color .3s,transform .3s,box-shadow .3s" onmouseover="this.style.borderColor='#43e3cf';this.style.transform='translateY(-4px)';this.style.boxShadow='0 20px 50px -20px rgba(67,227,207,.28)'" onmouseout="this.style.borderColor='#1e2128';this.style.transform='none';this.style.boxShadow='none'">
+      <!-- Vita, hauteur de deux cartes -->
+      <a data-reveal class="g-vita" href="https://showrobotics.ai" style="display:flex;flex-direction:column;background:#0f1216;border:1px solid #1e2128;color:#edeef2;transition:border-color .3s,transform .3s,box-shadow .3s" onmouseover="this.style.borderColor='#43e3cf';this.style.transform='translateY(-4px)';this.style.boxShadow='0 20px 50px -20px rgba(67,227,207,.28)'" onmouseout="this.style.borderColor='#1e2128';this.style.transform='none';this.style.boxShadow='none'">
         <div class="vita-media">
           <video src="media/vita.mp4" poster="img/vita_still.jpg" muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" onmouseover="this.play()" onmouseout="this.pause()"></video>
         </div>
         <div style="padding:22px 24px 26px;display:flex;flex-direction:column;gap:8px">
           <div style="display:flex;align-items:center;justify-content:space-between">
             <span style="font:400 11px 'Space Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:#43e3cf" data-i18n="vita_year">2026 · robot vivant</span>
-            <span style="font:400 11px 'Space Mono',monospace;color:#5f6169">01 / 04</span>
+            <span style="font:400 11px 'Space Mono',monospace;color:#5f6169">01 / 05</span>
           </div>
           <h3 style="font:700 1.5rem 'Space Mono',monospace;letter-spacing:-.02em">Vita <span style="color:#5f6169;font-size:.7em;font-weight:400">↗</span></h3>
           <p style="color:#8b8d97;font-size:.98rem" data-i18n="vita_desc">Une tête animatronique avec une vraie personnalité : vision, voix, mémoire, caractère. Le projet phare de Show Robotics.</p>
         </div>
       </a>
 
-      <!-- les trois autres, empilées -->
-      <div class="pcol">
-        <a data-reveal href="https://quitsponsor.com" style="display:flex;flex-direction:column;background:#0f1216;border:1px solid #1e2128;color:#edeef2;transition:border-color .3s,transform .3s,box-shadow .3s" onmouseover="this.style.borderColor='#43e3cf';this.style.transform='translateY(-4px)';this.style.boxShadow='0 20px 50px -20px rgba(67,227,207,.28)'" onmouseout="this.style.borderColor='#1e2128';this.style.transform='none';this.style.boxShadow='none'">
+      <!-- le rover, sous Vita -->
+      <div data-reveal class="g-rover" style="display:flex;flex-direction:column;background:#0f1216;border:1px solid #1e2128;color:#edeef2;transition:border-color .3s,transform .3s" onmouseover="this.style.borderColor='#2a2e37';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='#1e2128';this.style.transform='none'">
+        <div class="side-media">
+          <img src="img/rover.jpg" alt="Rover holonomique à roues mecanum, caméra de profondeur sur mât, de nuit dans le jardin" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 42%">
+        </div>
+        <div style="padding:16px 20px 20px;display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <span style="font:400 11px 'Space Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:#43e3cf" data-i18n="rover_year">2026 · base mobile</span>
+            <span style="font:400 11px 'Space Mono',monospace;color:#5f6169">04 / 05</span>
+          </div>
+          <h3 style="font:700 1.15rem 'Space Mono',monospace;letter-spacing:-.01em" data-i18n="rover_h3">Rover holonomique</h3>
+          <p style="color:#8b8d97;font-size:.93rem" data-i18n="rover_desc">Quatre roues mecanum et une caméra de profondeur sur mât : une base qui se déplace dans toutes les directions, sans avoir à tourner.</p>
+        </div>
+      </div>
+
+      <a data-reveal class="g-r1" href="https://quitsponsor.com" style="display:flex;flex-direction:column;background:#0f1216;border:1px solid #1e2128;color:#edeef2;transition:border-color .3s,transform .3s,box-shadow .3s" onmouseover="this.style.borderColor='#43e3cf';this.style.transform='translateY(-4px)';this.style.boxShadow='0 20px 50px -20px rgba(67,227,207,.28)'" onmouseout="this.style.borderColor='#1e2128';this.style.transform='none';this.style.boxShadow='none'">
           <div class="side-media" style="background:radial-gradient(ellipse 70% 70% at 50% 42%,#12202f 0%,#0b0f14 72%)">
             <img src="img/quitsponsor.svg" alt="Logo QuitSponsor" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:12%">
           </div>
           <div style="padding:16px 20px 20px;display:flex;flex-direction:column;gap:6px">
             <div style="display:flex;align-items:center;justify-content:space-between">
               <span style="font:400 11px 'Space Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:#43e3cf" data-i18n="quit_year">2026 · IA santé, open source</span>
-              <span style="font:400 11px 'Space Mono',monospace;color:#5f6169">02 / 04</span>
+              <span style="font:400 11px 'Space Mono',monospace;color:#5f6169">02 / 05</span>
             </div>
             <h3 style="font:700 1.15rem 'Space Mono',monospace;letter-spacing:-.01em">QuitSponsor <span style="color:#5f6169;font-size:.7em;font-weight:400">↗</span></h3>
             <p style="color:#8b8d97;font-size:.93rem" data-i18n="quit_desc">Un parrain IA pour arrêter de fumer : protocole sourcé, éthique publiée, évalué sur sept modèles. Construit pendant mon propre sevrage.</p>
           </div>
         </a>
 
-        <a data-reveal href="https://showrobotics.ai/archive" style="display:flex;flex-direction:column;background:#0f1216;border:1px solid #1e2128;color:#edeef2;transition:border-color .3s,transform .3s,box-shadow .3s" onmouseover="this.style.borderColor='#43e3cf';this.style.transform='translateY(-4px)';this.style.boxShadow='0 20px 50px -20px rgba(67,227,207,.28)'" onmouseout="this.style.borderColor='#1e2128';this.style.transform='none';this.style.boxShadow='none'">
+        <a data-reveal class="g-r2" href="https://showrobotics.ai/archive" style="display:flex;flex-direction:column;background:#0f1216;border:1px solid #1e2128;color:#edeef2;transition:border-color .3s,transform .3s,box-shadow .3s" onmouseover="this.style.borderColor='#43e3cf';this.style.transform='translateY(-4px)';this.style.boxShadow='0 20px 50px -20px rgba(67,227,207,.28)'" onmouseout="this.style.borderColor='#1e2128';this.style.transform='none';this.style.boxShadow='none'">
           <div class="side-media">
             <video src="media/lab.mp4" poster="media/lab_poster.jpg" muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" onmouseover="this.play()" onmouseout="this.pause()"></video>
           </div>
           <div style="padding:16px 20px 20px;display:flex;flex-direction:column;gap:6px">
             <div style="display:flex;align-items:center;justify-content:space-between">
               <span style="font:400 11px 'Space Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:#43e3cf" data-i18n="lab_year">2025-2026 · l'atelier</span>
-              <span style="font:400 11px 'Space Mono',monospace;color:#5f6169">03 / 04</span>
+              <span style="font:400 11px 'Space Mono',monospace;color:#5f6169">03 / 05</span>
             </div>
             <h3 style="font:700 1.15rem 'Space Mono',monospace;letter-spacing:-.01em"><span data-i18n="lab_h3">Le lab</span> <span style="color:#5f6169;font-size:.7em;font-weight:400">↗</span></h3>
             <p style="color:#8b8d97;font-size:.93rem" data-i18n="lab_desc">Bras robotiques, imprimantes 3D, entraînement de modèles sur GPU maison. Là où les cours et les prototypes prennent vie.</p>
           </div>
         </a>
 
-        <div data-reveal style="display:flex;flex-direction:column;background:#0f1216;border:1px solid #1e2128;color:#edeef2;transition:border-color .3s,transform .3s" onmouseover="this.style.borderColor='#2a2e37';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='#1e2128';this.style.transform='none'">
+        <div data-reveal class="g-r3" style="display:flex;flex-direction:column;background:#0f1216;border:1px solid #1e2128;color:#edeef2;transition:border-color .3s,transform .3s" onmouseover="this.style.borderColor='#2a2e37';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='#1e2128';this.style.transform='none'">
           <div class="side-media">
             <img src="img/trader_bot.jpg" alt="Petit robot à chenilles avec une cravate" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
           </div>
           <div style="padding:16px 20px 20px;display:flex;flex-direction:column;gap:6px">
             <div style="display:flex;align-items:center;justify-content:space-between">
               <span style="font:400 11px 'Space Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:#8b8d97" data-i18n="trader_year">2025 · robot #1</span>
-              <span style="font:400 11px 'Space Mono',monospace;color:#5f6169">04 / 04</span>
+              <span style="font:400 11px 'Space Mono',monospace;color:#5f6169">05 / 05</span>
             </div>
             <h3 style="font:700 1.15rem 'Space Mono',monospace;letter-spacing:-.01em">Traderbot</h3>
             <p style="color:#8b8d97;font-size:.93rem" data-i18n="trader_desc">Châssis chenillé imprimé en 3D, yeux sur écrans LCD carrés, bouche NeoPixel, et cravate réglementaire. Le premier de la lignée.</p>
           </div>
         </div>
-      </div>
     </div>
     <div style="margin-top:20px;font:400 12px 'Space Mono',monospace;letter-spacing:.06em;color:#5f6169"><span style="color:#43e3cf">&gt;</span> <span data-i18n="hint">survolez les cartes : certaines s'animent</span></div>
   </div>
@@ -289,7 +306,7 @@
       <p style="color:#5f6169;font-size:.86rem" data-i18n="foot_p2">Simple Agency, depuis 2010. Site minimal par choix : pas de cookies, pas de tracking, pas de formulaire. Un email suffit.</p>
     </div>
     <div style="font:400 11px 'Space Mono',monospace;letter-spacing:.08em;color:#5f6169;line-height:2;text-align:right">
-      <div data-i18n="foot_loc">SUISSE ROMANDE · REMOTE</div>
+      <div data-i18n="foot_loc">THAÏLANDE · REMOTE</div>
       <div>FR / EN</div>
       <div style="color:#43e3cf" data-i18n="foot_iris">Fait main avec Iris, 2026</div>
     </div>
@@ -312,7 +329,7 @@ const I18N = {
     spec_n1: "20 ans", spec_l1: "de développement web",
     spec_n2: "10 ans", spec_l2: "d'agence, en clientèle",
     spec_n3: "4 robots", spec_l3: "construits &amp; montrés en public",
-    spec_loc: "SUISSE ROMANDE · REMOTE",
+    spec_loc: "REMOTE · UTC+7",
     s01_label: "La preuve par les mains",
     s01_h2: "Ce que je construis <em style='color:#43e3cf;font-size:.95em'>en ce moment</em>",
     s01_lead: "Pas de slides : des machines et des outils qui tournent, construits en public.",
@@ -324,6 +341,9 @@ const I18N = {
     lab_desc: "Bras robotiques, imprimantes 3D, entraînement de modèles sur GPU maison. Là où les cours et les prototypes prennent vie.",
     trader_year: "2025 · robot #1",
     trader_desc: "Châssis chenillé imprimé en 3D, yeux sur écrans LCD carrés, bouche NeoPixel, et cravate réglementaire. Le premier de la lignée.",
+    rover_year: "2026 · base mobile",
+    rover_h3: "Rover holonomique",
+    rover_desc: "Quatre roues mecanum et une caméra de profondeur sur mât : une base qui se déplace dans toutes les directions, sans avoir à tourner.",
     hint: "survolez les cartes : certaines s'animent",
     s02_label: "Deux façons de travailler ensemble",
     s02_h2: "Cours particuliers, ou coup de main <em style='color:#43e3cf;font-size:.95em'>à votre entreprise</em>",
@@ -349,7 +369,7 @@ const I18N = {
     cta_h2: "La première heure est <em style='color:#43e3cf'>offerte.</em>",
     foot_p1: "Cours particuliers d'IA et de robotique, et accompagnement IA pragmatique pour petites entreprises. À distance, première heure offerte : <a href='mailto:lg@simpleagency.ch'>lg@simpleagency.ch</a>.",
     foot_p2: "Simple Agency, depuis 2010. Site minimal par choix : pas de cookies, pas de tracking, pas de formulaire. Un email suffit.",
-    foot_loc: "SUISSE ROMANDE · REMOTE",
+    foot_loc: "THAÏLANDE · REMOTE",
     foot_iris: "Fait main avec Iris, 2026"
   },
   en: {
@@ -363,7 +383,7 @@ const I18N = {
     spec_n1: "20 years", spec_l1: "of web development",
     spec_n2: "10 years", spec_l2: "running an agency, client-side",
     spec_n3: "4 robots", spec_l3: "built &amp; shown in public",
-    spec_loc: "SWITZERLAND · REMOTE",
+    spec_loc: "REMOTE · UTC+7",
     s01_label: "Proof by hand",
     s01_h2: "What I am building <em style='color:#43e3cf;font-size:.95em'>right now</em>",
     s01_lead: "No slides: machines and tools that actually run, built in public.",
@@ -375,6 +395,9 @@ const I18N = {
     lab_desc: "Robot arms, 3D printers, model training on a home GPU rig. Where the lessons and the prototypes come to life.",
     trader_year: "2025 · robot #1",
     trader_desc: "3D-printed tracked chassis, square LCD eyes, NeoPixel mouth, and a regulation necktie. The first of the line.",
+    rover_year: "2026 · mobile base",
+    rover_h3: "Holonomic rover",
+    rover_desc: "Four mecanum wheels and a mast-mounted depth camera: a base that moves in any direction without having to turn.",
     hint: "hover the cards: some of them come alive",
     s02_label: "Two ways to work together",
     s02_h2: "Private lessons, or a hand <em style='color:#43e3cf;font-size:.95em'>for your business</em>",
@@ -400,7 +423,7 @@ const I18N = {
     cta_h2: "The first hour is <em style='color:#43e3cf'>free.</em>",
     foot_p1: "Private AI and robotics lessons, and pragmatic AI help for small businesses. Remote, first hour free: <a href='mailto:lg@simpleagency.ch'>lg@simpleagency.ch</a>.",
     foot_p2: "Simple Agency, since 2010. A minimal site by choice: no cookies, no tracking, no forms. One email is enough.",
-    foot_loc: "SWITZERLAND · REMOTE",
+    foot_loc: "THAILAND · REMOTE",
     foot_iris: "Handmade with Iris, 2026"
   }
 };
